@@ -15,7 +15,6 @@ let newH, newW, newSelSize;
 if(window.innerWidth * 1.225 <= window.innerHeight) {
 	newW = window.innerWidth;
 	newH = picH * newW / picW;
-	mapPic.style.top = (window.innerHeight - newH)  / 2 + "px";
 	newSelSize = selSize * newW/picW;
 }
 
@@ -26,6 +25,7 @@ else {
 	newSelSize = selSize * newH/picH;
 }
 
+mapPic.style.top = window.innerHeight - newH + "px";
 
 test.style.width = newSelSize + "px";
 test.style.height = newSelSize + "px";
