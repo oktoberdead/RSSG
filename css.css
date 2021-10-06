@@ -1,0 +1,16 @@
+#mapPic{
+
+position: fixed;
+left: 0px;
+top: 0px;
+
+
+}
+
+
+#test{
+	position: fixed;
+	border: dashed black 1px;
+	width: 12px;
+	height: 12px;
+}
