@@ -1,36 +1,4 @@
-let mapPic = document.getElementById("mapPic");
-let test = document.getElementById("test");
 
-
-
-let tN = 0;
-
-const picW = 1577;
-const picH = 1931;
-
-const selSize = 35;
-
-let newH, newW, newSelSize;
-
-if(window.innerWidth * 1.225 <= window.innerHeight) {
-	newW = window.innerWidth;
-	newH = picH * newW / picW;
-	newSelSize = selSize * newW/picW;
-}
-
-else {
-	newH = window.innerHeight;
-	newW = picW * newH / picH;
-	mapPic.style.left = (window.innerWidth - newW)  / 2 + "px";
-	newSelSize = selSize * newH/picH;
-}
-
-mapPic.style.top = window.innerHeight - newH + "px";
-
-test.style.width = newSelSize + "px";
-test.style.height = newSelSize + "px";
-mapPic.style.width = newW + "px";
-mapPic.style.height = newH + "px";
 
 let branchStationCount = [19, 18, 12, 8, 15];
 let stationNames = [
@@ -57,5 +25,44 @@ let yPosStationArray = [
 []
 ];
 
+let mapPic = document.getElementById("mapPic");
+let test = document.getElementById("test");
+
+
+
+let tN = 0;
+
+const picW = 1577;
+const picH = 1931;
+
+const selSize = 35;
+
+let newH, newW, newSelSize;
+function sizeChange(){
+if(window.innerWidth * 1.225 <= window.innerHeight) {
+	newW = window.innerWidth;
+	newH = picH * newW / picW;
+	newSelSize = selSize * newW/picW;
+}
+
+else {
+	newH = window.innerHeight;
+	newW = picW * newH / picH;
+	mapPic.style.left = (window.innerWidth - newW)  / 2 + "px";
+	newSelSize = selSize * newH/picH;
+}
+
+mapPic.style.top = window.innerHeight - newH + "px";
+
+test.style.width = newSelSize + "px";
+test.style.height = newSelSize + "px";
+mapPic.style.width = newW + "px";
+mapPic.style.height = newH + "px";
 test.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize / 2 + "px";
-test.style.top = yPosStationArray[0][tN] / 10000 * newH + (window.innerHeight - newH) / 2  - newSelSize / 2 + "px";
+test.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 + "px";
+}
+
+
+window.onresize = sizeChange;
+
+sizeChange();
