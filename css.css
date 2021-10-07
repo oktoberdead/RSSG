@@ -23,11 +23,13 @@ top: 0px;
 
 
 #infoBox{
-	border: 2px dashed black;
+	border: 2px dotted black;
 	position: fixed;
 	text-align: center;
 	text-shadow: rgba(107, 0, 0, 0.3) 1px 1px;
 	z-index: 9999991;
+	border-top-right-radius: 7px;
+	border-top-left-radius: 7px;
 }
 
 #rBut{
@@ -36,6 +38,8 @@ top: 0px;
 	background-color: rgb(122, 255, 115);
 	border: 2px inset lime;
 	z-index: 9999992;
+	border-bottom-right-radius: 7px;
+	border-bottom-left-radius: 7px;
 
 }
 

@@ -70,11 +70,21 @@ if(window.innerWidth * 1.225 <= window.innerHeight) {
 
 	// Код ниже представляет собой проверку на то, имеется ли нужное для окошка пространство и последующее его позиционирование
 	if(window.innerHeight > newH * 80 * newSelSize / window.innerHeight) {
-		infoBox.style.left = (window.innerWidth - 12 * newSelSize) / 2 + "px";
+		infoBox.style.left = (window.innerWidth - 1000 * (window.innerHeight - newH) / window.innerHeight) / 2 + "px";
 		infoBox.style.top = "10px";
 
-		rBut.style.left = (window.innerWidth - 12 * newSelSize) / 2 + "px";
-		rBut.style.top = 3 * newSelSize + 12 + "px";
+		rBut.style.left = (window.innerWidth - 1000 * (window.innerHeight - newH) / window.innerHeight) / 2 + "px";
+		
+		if(window.innerWidth - 1000 * (window.innerHeight - newH) / window.innerHeight >= 50){
+		infoBox.style.width = 1000 * (window.innerHeight - newH) / window.innerHeight + "px";
+		infoBox.style.height = 250 * (window.innerHeight - newH) / window.innerHeight + "px";
+		infoBox.style.fontSize = 100 * (window.innerHeight - newH) / window.innerHeight + "px";
+
+		rBut.style.width = 1000 * (window.innerHeight - newH) / window.innerHeight + "px";
+		rBut.style.height = 250 * (window.innerHeight - newH) / window.innerHeight + "px";
+		rBut.style.top = 250 * (window.innerHeight - newH) / window.innerHeight + 12 + "px";
+
+	}
 		
 	} else {
 		infoBox.style.left = 0.0025 * newW + "px";
@@ -82,6 +92,13 @@ if(window.innerWidth * 1.225 <= window.innerHeight) {
 
 		rBut.style.left = 0.0025 * newW + "px";
 		rBut.style.top = window.innerHeight - 0.525 * newH + 3 * newSelSize + 2 + "px";
+
+		infoBox.style.width = 12 * newSelSize + "px";
+		infoBox.style.height = 3 * newSelSize + "px";
+		infoBox.style.fontSize = 1.15 * newSelSize + "px";
+
+		rBut.style.width = 12 * newSelSize + "px";
+		rBut.style.height = 3 * newSelSize + "px";
 		}
 }
 
@@ -97,16 +114,17 @@ else {
 
 		rBut.style.left = 0.0025 * window.innerWidth + (window.innerWidth - newW) / 2 + "px";
 		rBut.style.top = window.innerHeight - 0.525 * newH + 3 * newSelSize + 2 + "px";
+
+		infoBox.style.width = 12 * newSelSize + "px";
+		infoBox.style.height = 3 * newSelSize + "px";
+		infoBox.style.fontSize = 1.15 * newSelSize + "px";
+
+		rBut.style.width = 12 * newSelSize + "px";
+		rBut.style.height = 3 * newSelSize + "px";
 }
 
 
 // Далее идёт магия, которую я сам не в силах понять. (шутка!)
-infoBox.style.width = 12 * newSelSize + "px";
-infoBox.style.height = 3 * newSelSize + "px";
-infoBox.style.fontSize = 1.15 * newSelSize + "px";
-
-rBut.style.width = 12 * newSelSize + "px";
-rBut.style.height = 3 * newSelSize + "px";
 
 
 
