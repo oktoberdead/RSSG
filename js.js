@@ -32,7 +32,12 @@ let mapPic = document.getElementById("mapPic");
 let ptr = document.getElementById("ptr");
 let outerPtr = document.getElementById("outerPtr");
 
+let infoBox = document.getElementById("infoBox");
+let rBut = document.getElementById("rBut");
 
+
+
+let mapSizeRatio;
 let tN = 0; // эээ... номер.. ветки..... пока что.
 
 const picW = 1577; // Ширина картинки в пикселях
@@ -50,26 +55,58 @@ function sizeChange(){		// объяснено ниже
 // рассматриваем две ситуации:
 // 1. -окно имеет большую высоту, чем ширину. 
 // В таком случае мы опираемся именно на ширину, ибо нам необходимо вписать картинку по ширине, а высота не имеет значения.
+// Окно с кнопкой будет над картой. При недостатке места карта будет уменьшена таким образом, чтобы окошко поместилось.
 // 2. -окно имеет большую ширину, чем высоту.
 // Тут всё наоборот.
+// Также при наличии достаточного места слева от карты появится окошко с кнопкой. В обратном случае оно будет "впихнуто" над картой.
 // НО! Есть один нюанс. При приближении к границе перехода между "опорами", по которым считается размер картинки, происходит неведомая хрень, 
 // вследствие которой картинка продолжает вписываться по ширине, хотя должна начать вписываться по высоте. В итоге картинка вылезает вверх и вниз.
 // Для устранения этой параши я чутка изменил порог перехода. 1.225 - это и есть коэффициент, решающий эту проблему.
-// Переход теперь идеально плавный.
+// Переход теперь (почти) идеально плавный.
 if(window.innerWidth * 1.225 <= window.innerHeight) {
 	newW = window.innerWidth;
 	newH = picH * newW / picW;			// первый вариант. Ширина окна меньше высоты.
 	newSelSize = selSize * newW/picW;
+		infoBox.style.left = 0.0025 * newW + "px";
+		infoBox.style.top = window.innerHeight - 0.525 * newH + "px";
+
+		rBut.style.left = 0.0025 * newW + "px";
+		rBut.style.top = window.innerHeight - 0.525 * newH + 3 * newSelSize + 2 + "px";
+
 }
 
 else {
+
 	newH = window.innerHeight;
-	newW = picW * newH / picH;
+	newW = picW * newH / picH;	
+	if(window.innerWidth - newW >= 300 * newW/window.innerWidth){	// если хватает места под окно
+		
+	}
 	mapPic.style.left = (window.innerWidth - newW)  / 2 + "px";		// соответственно второй вариант - ширина окна больше высоты.
 	newSelSize = selSize * newH/picH;
+		infoBox.style.left = 0.0025 * window.innerWidth + (window.innerWidth - newW) / 2 + "px";
+		infoBox.style.top = window.innerHeight - 0.525 * newH + "px";
+
+		rBut.style.left = 0.0025 * window.innerWidth + (window.innerWidth - newW) / 2 + "px";
+		rBut.style.top = window.innerHeight - 0.525 * newH + 3 * newSelSize + 2 + "px";
+
+
+
+
 }
 
 // Далее идёт магия, которую я сам не в силах понять. (шутка!)
+infoBox.style.width = 12 * newSelSize + "px";
+infoBox.style.height = 3 * newSelSize + "px";
+infoBox.style.fontSize = 1.25 * newSelSize + "px";
+
+rBut.style.width = 12 * newSelSize + "px";
+rBut.style.height = 3 * newSelSize + "px";
+
+
+
+
+
 mapPic.style.top = window.innerHeight - newH + "px";
 mapPic.style.width = newW + "px";							// тут мы задаём размер картинке карты
 mapPic.style.height = newH + "px";
@@ -82,10 +119,10 @@ ptr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - n
 ptr.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 + 1 + "px";			// а тут мы этой внутренней части стрелки задаём положение
 ptr.style.clipPath = "polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%)";										// и ФОРМУ!!!
 
-outerPtr.style.clipPath = "polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%)";
-outerPtr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 - 2 + "px";
+outerPtr.style.clipPath = "polygon(80% 0%, 100% 50%, 80% 100%, 0% 100%, 10% 50%, 0% 0%)";
+outerPtr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 - 4 + "px";
 outerPtr.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 - 1 + "px";		// для внешней части стрелки всё то же самое, но она чуть шире и выше
-outerPtr.style.width = 8 * newSelSize + 4 +"px";
+outerPtr.style.width = 8 * newSelSize + 8 +"px";
 outerPtr.style.height = newSelSize + 4 + "px";
 
 }

@@ -15,9 +15,36 @@ top: 0px;
 #ptr{
 	position: fixed;
 	color: white;
-	text-shadow: black 2px 1px;
+	text-shadow: black 1.5px 1.5px;
 	text-align: center;
 	opacity: 0;
 
 }
 
+
+#infoBox{
+	border: 2px dashed black;
+	position: fixed;
+	text-align: center;
+	text-shadow: rgba(107, 0, 0, 0.3) 1px 1px;
+	z-index: 9999991;
+}
+
+#rBut{
+	position: fixed;
+	transition: background-color 0.2s;
+	background-color: rgb(122, 255, 115);
+	border: 2px inset lime;
+	z-index: 9999992;
+
+}
+
+#rBut:hover{
+	background-color: rgb(111, 242, 134);
+	border: 2px inset limegreen;
+}
+
+#rBut:active{
+	background-color: rgb(57, 255, 240);
+	border: 2px inset hotpink;
+}
