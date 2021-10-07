@@ -78,7 +78,7 @@ if(window.innerWidth * 1.225 <= window.innerHeight) {
 		if(window.innerWidth - 1000 * (window.innerHeight - newH) / window.innerHeight >= 20){
 		infoBox.style.width = 1000 * (window.innerHeight - newH) / window.innerHeight + "px";
 		infoBox.style.height = 225 * (window.innerHeight - newH) / window.innerHeight + "px";
-		infoBox.style.fontSize = 100 * (window.innerHeight - newH) / window.innerHeight + "px";
+		infoBox.style.fontSize = 75 * (window.innerHeight - newH) / window.innerHeight + "px";
 
 		rBut.style.width = 1000 * (window.innerHeight - newH) / window.innerHeight + "px";
 		rBut.style.height = 250 * (window.innerHeight - newH) / window.innerHeight + "px";
