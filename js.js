@@ -103,7 +103,7 @@ else {
 // Далее идёт магия, которую я сам не в силах понять. (шутка!)
 infoBox.style.width = 12 * newSelSize + "px";
 infoBox.style.height = 3 * newSelSize + "px";
-infoBox.style.fontSize = 1.25 * newSelSize + "px";
+infoBox.style.fontSize = 1.15 * newSelSize + "px";
 
 rBut.style.width = 12 * newSelSize + "px";
 rBut.style.height = 3 * newSelSize + "px";
