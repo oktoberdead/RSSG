@@ -69,7 +69,7 @@ if(window.innerWidth * 1.225 <= window.innerHeight) {
 	newSelSize = selSize * newW/picW;
 
 	// Код ниже представляет собой проверку на то, имеется ли нужное для окошка пространство и последующее его позиционирование
-	if(window.innerHeight > newH * 880 / window.innerHeight) {
+	if(window.innerHeight > newH * 80 * newSelSize / window.innerHeight) {
 		infoBox.style.left = (window.innerWidth - 12 * newSelSize) / 2 + "px";
 		infoBox.style.top = "10px";
 
@@ -98,7 +98,6 @@ else {
 		rBut.style.left = 0.0025 * window.innerWidth + (window.innerWidth - newW) / 2 + "px";
 		rBut.style.top = window.innerHeight - 0.525 * newH + 3 * newSelSize + 2 + "px";
 }
-
 
 
 // Далее идёт магия, которую я сам не в силах понять. (шутка!)
@@ -130,7 +129,6 @@ outerPtr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidt
 outerPtr.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 - 1 + "px";		// для внешней части стрелки всё то же самое, но она чуть шире и выше
 outerPtr.style.width = 8 * newSelSize + 8 +"px";
 outerPtr.style.height = newSelSize + 4 + "px";
-
 }
 
 // так как я имбецил и не особо шарю в вебе, я решил добавить изменение положения и размера элементов в реальном времени. Боже, звучит ужасно.
