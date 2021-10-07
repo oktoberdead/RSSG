@@ -1,5 +1,5 @@
 
-
+// кучка массивов, содержащих названия станций и координаты для указателя, а также цвета веток метро
 let branchStationCount = [19, 18, 12, 8, 15];
 let stationNames = [
 ["Проспект Ветеранов", "Ленинский проспект", "Автово", "Кировский завод", "Нарвская", "Балтийская", "Технологический институт", "Пушкинская", "Владимирская", "Площадь восстания", "Чернышевская", "Площадь Ленина", "Выборгская", "Лесная", "Площадь мужества", "Политехническая", "Академическая", "Гражданский проспект", "Девяткино"],
@@ -25,44 +25,86 @@ let yPosStationArray = [
 []
 ];
 
+let pCol = ["red", "blue", "green", "orange", "purple"];
+
+// переменные для "управления" блоками
 let mapPic = document.getElementById("mapPic");
-let test = document.getElementById("test");
+let ptr = document.getElementById("ptr");
+let outerPtr = document.getElementById("outerPtr");
 
 
+let tN = 0; // эээ... номер.. ветки..... пока что.
 
-let tN = 0;
+const picW = 1577; // Ширина картинки в пикселях
+const picH = 1931; // Высота картинки... в пикселях
 
-const picW = 1577;
-const picH = 1931;
+const selSize = 30; // Это, в общем-то, бесполезная переменная, ну и хрен с ней :)
 
-const selSize = 35;
+let newH, newW, newSelSize; // переменные для значений высоты и ширины для картинки и стрелочки-указателя.
 
-let newH, newW, newSelSize;
-function sizeChange(){
+
+function sizeChange(){		// объяснено ниже
+
+// Условие для последующего задания картинке карты необходимого размера.
+// Нужно подобрать такие высоту и ширину, чтобы картинка ВСЕГДА помещалась на странице ПОЛНОСТЬЮ.
+// рассматриваем две ситуации:
+// 1. -окно имеет большую высоту, чем ширину. 
+// В таком случае мы опираемся именно на ширину, ибо нам необходимо вписать картинку по ширине, а высота не имеет значения.
+// 2. -окно имеет большую ширину, чем высоту.
+// Тут всё наоборот.
+// НО! Есть один нюанс. При приближении к границе перехода между "опорами", по которым считается размер картинки, происходит неведомая хрень, 
+// вследствие которой картинка продолжает вписываться по ширине, хотя должна начать вписываться по высоте. В итоге картинка вылезает вверх и вниз.
+// Для устранения этой параши я чутка изменил порог перехода. 1.225 - это и есть коэффициент, решающий эту проблему.
+// Переход теперь идеально плавный.
 if(window.innerWidth * 1.225 <= window.innerHeight) {
 	newW = window.innerWidth;
-	newH = picH * newW / picW;
+	newH = picH * newW / picW;			// первый вариант. Ширина окна меньше высоты.
 	newSelSize = selSize * newW/picW;
 }
 
 else {
 	newH = window.innerHeight;
 	newW = picW * newH / picH;
-	mapPic.style.left = (window.innerWidth - newW)  / 2 + "px";
+	mapPic.style.left = (window.innerWidth - newW)  / 2 + "px";		// соответственно второй вариант - ширина окна больше высоты.
 	newSelSize = selSize * newH/picH;
 }
 
+// Далее идёт магия, которую я сам не в силах понять. (шутка!)
 mapPic.style.top = window.innerHeight - newH + "px";
-
-test.style.width = newSelSize + "px";
-test.style.height = newSelSize + "px";
-mapPic.style.width = newW + "px";
+mapPic.style.width = newW + "px";							// тут мы задаём размер картинке карты
 mapPic.style.height = newH + "px";
-test.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize / 2 + "px";
-test.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 + "px";
+
+ptr.style.fontSize = newSelSize - 2 + "px";
+ptr.style.width = 8 * newSelSize + "px";					// тут мы задаём размер внутренней(цветной) части стрелки
+ptr.style.height = newSelSize + "px";
+
+ptr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 + "px";
+ptr.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 + 1 + "px";			// а тут мы этой внутренней части стрелки задаём положение
+ptr.style.clipPath = "polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%)";										// и ФОРМУ!!!
+
+outerPtr.style.clipPath = "polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%)";
+outerPtr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 - 2 + "px";
+outerPtr.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 - 1 + "px";		// для внешней части стрелки всё то же самое, но она чуть шире и выше
+outerPtr.style.width = 8 * newSelSize + 4 +"px";
+outerPtr.style.height = newSelSize + 4 + "px";
+
 }
 
-
+// так как я имбецил и не особо шарю в вебе, я решил добавить изменение положения и размера элементов в реальном времени. Боже, звучит ужасно.
+// короче, онресайз позволяет мне мутить дичь, при этом наблюдая элементы правильного размера в правильных местах. Вне зависимости от размера окна. Наверное.
 window.onresize = sizeChange;
 
-sizeChange();
+sizeChange();	// вызываем функцию один раз. по приколу.
+
+
+// а вот эта хрень вызывается, когда мы получаем рандомные числа - номер ветки и номер станции. Собственно, параметры функции - это и есть ветка и станция
+function displayPointer(branchNum){
+	ptr.style.background = pCol[branchNum];
+	ptr.style.opacity = 1;
+}
+displayPointer(0);
+
+// надо:
+// добавить генератор рандомных чисел
+// выделить под него место над картой
+// заполнить массивы (мама...)
