@@ -67,21 +67,29 @@ if(window.innerWidth * 1.225 <= window.innerHeight) {
 	newW = window.innerWidth;
 	newH = picH * newW / picW;			// первый вариант. Ширина окна меньше высоты.
 	newSelSize = selSize * newW/picW;
+
+	// Код ниже представляет собой проверку на то, имеется ли нужное для окошка пространство и последующее его позиционирование
+	if(window.innerHeight > newH * 880 / window.innerHeight) {
+		infoBox.style.left = (window.innerWidth - 12 * newSelSize) / 2 + "px";
+		infoBox.style.top = "10px";
+
+		rBut.style.left = (window.innerWidth - 12 * newSelSize) / 2 + "px";
+		rBut.style.top = 3 * newSelSize + 12 + "px";
+		
+	} else {
 		infoBox.style.left = 0.0025 * newW + "px";
 		infoBox.style.top = window.innerHeight - 0.525 * newH + "px";
 
 		rBut.style.left = 0.0025 * newW + "px";
 		rBut.style.top = window.innerHeight - 0.525 * newH + 3 * newSelSize + 2 + "px";
-
+		}
 }
 
 else {
 
 	newH = window.innerHeight;
 	newW = picW * newH / picH;	
-	if(window.innerWidth - newW >= 300 * newW/window.innerWidth){	// если хватает места под окно
-		
-	}
+	
 	mapPic.style.left = (window.innerWidth - newW)  / 2 + "px";		// соответственно второй вариант - ширина окна больше высоты.
 	newSelSize = selSize * newH/picH;
 		infoBox.style.left = 0.0025 * window.innerWidth + (window.innerWidth - newW) / 2 + "px";
@@ -89,11 +97,9 @@ else {
 
 		rBut.style.left = 0.0025 * window.innerWidth + (window.innerWidth - newW) / 2 + "px";
 		rBut.style.top = window.innerHeight - 0.525 * newH + 3 * newSelSize + 2 + "px";
-
-
-
-
 }
+
+
 
 // Далее идёт магия, которую я сам не в силах понять. (шутка!)
 infoBox.style.width = 12 * newSelSize + "px";
