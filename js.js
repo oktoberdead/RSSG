@@ -1,3 +1,7 @@
+function rand(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+// Генератор случайных чисел
 
 // кучка массивов, содержащих названия станций и координаты для указателя, а также цвета веток метро
 let branchStationCount = [19, 18, 12, 8, 15];
@@ -10,19 +14,19 @@ let stationNames = [
 ];
 
 let xPosStationArray = [
-[2775],
-[],
-[],
-[],
-[]
+[2775, 2775, 2775, 2775, 2775, 2775, 4300, 5000, 5825, 5825, 5825, 5825, 5825, 5825, 5825, 5825, 5825, 5825, 5825],
+[4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350, 4350],
+[7450, 7450, 7450, 7450, 7450, 7450, 5825, 4350, 1825, 1825, 1825, 1825],
+[8500, 8500, 8500, 8500, 7450, 6725, 5825, 4350],
+[5925, 5925, 5925, 5925, 5925, 5925, 5925, 5000, 4350, 3625, 2900, 2900, 2900, 2900, 2900]
 ];
 
 let yPosStationArray = [
-[8337],
-[],
-[],
-[],
-[]
+[8339, 8060, 7791, 7535, 7265, 6990, 5762, 5225, 4688, 3800, 2550, 2275, 2020, 1750, 1480, 1225, 950, 675, 400],
+[8595, 8339, 8060, 7791, 7535, 7265, 6990, 5762, 4688, 3800, 2275, 2020, 1750, 1480, 1225, 950, 675, 400],
+[8595, 8339, 8060, 7791, 7535, 4688, 3800, 3800, 2550, 2275, 2020, 1750],
+[6550, 6275, 6025, 5750, 4688, 4688, 4688, 4688],
+[8595, 8339, 8060, 7791, 7535, 7265, 5762, 5225, 4688, 4100, 2550, 2275, 2020, 1750, 1480]
 ];
 
 let pCol = ["red", "blue", "green", "orange", "purple"];
@@ -37,8 +41,9 @@ let rBut = document.getElementById("rBut");
 
 
 
-let mapSizeRatio;
-let tN = 0; // эээ... номер.. ветки..... пока что.
+let stationNum; // эээ... номер.. станции...
+let branchNum;
+
 
 const picW = 1577; // Ширина картинки в пикселях
 const picH = 1931; // Высота картинки... в пикселях
@@ -138,14 +143,10 @@ ptr.style.fontSize = newSelSize - 2 + "px";
 ptr.style.width = 8 * newSelSize + "px";					// тут мы задаём размер внутренней(цветной) части стрелки
 ptr.style.height = newSelSize + "px";
 
-ptr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 + "px";
-ptr.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 + 1 + "px";			// а тут мы этой внутренней части стрелки задаём положение
-ptr.style.clipPath = "polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%)";										// и ФОРМУ!!!
+ptr.style.clipPath = "polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%)";										// задаём форму для стрелочек
 
 outerPtr.style.clipPath = "polygon(80% 0%, 100% 50%, 80% 100%, 0% 100%, 10% 50%, 0% 0%)";
-outerPtr.style.left = xPosStationArray[0][tN] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 - 4 + "px";
-outerPtr.style.top = yPosStationArray[0][tN] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 - 1 + "px";		// для внешней части стрелки всё то же самое, но она чуть шире и выше
-outerPtr.style.width = 8 * newSelSize + 8 +"px";
+outerPtr.style.width = 8 * newSelSize + 8 + "px";
 outerPtr.style.height = newSelSize + 4 + "px";
 }
 
@@ -156,14 +157,18 @@ window.onresize = sizeChange;
 sizeChange();	// вызываем функцию один раз. по приколу.
 
 
-// а вот эта хрень вызывается, когда мы получаем рандомные числа - номер ветки и номер станции. Собственно, параметры функции - это и есть ветка и станция
-function displayPointer(branchNum){
+// а вот эта хрень вызывается, когда мы тыкаем на кнопку
+rBut.onclick = function(){
+	branchNum = rand(0,4);
+	stationNum = rand(0, branchStationCount[branchNum] - 1);
+
+
+
 	ptr.style.background = pCol[branchNum];
+	ptr.style.left = xPosStationArray[branchNum][stationNum] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 + "px";
+	ptr.style.top = yPosStationArray[branchNum][stationNum] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 + 1 + "px";			// а тут мы этой внутренней части стрелки задаём положение
+	outerPtr.style.left = xPosStationArray[branchNum][stationNum] / 10000 * newW + (window.innerWidth - newW) / 2 - newSelSize * 10 - 4 + "px";
+	outerPtr.style.top = yPosStationArray[branchNum][stationNum] / 10000 * newH + window.innerHeight - newH  - newSelSize / 2 - 1 + "px";		// для внешней части стрелки всё то же самое
+	outerPtr.style.opacity = 1;
 	ptr.style.opacity = 1;
 }
-displayPointer(0);
-
-// надо:
-// добавить генератор рандомных чисел
-// выделить под него место над картой
-// заполнить массивы (мама...)
